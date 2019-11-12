@@ -8,14 +8,35 @@
  * HINT: We exported some similar promise-returning functions in previous exercises
  */
 
-var fs = require('fs');
-var Promise = require('bluebird');
+let fs = require('fs');
+let Promise = require('bluebird');
+let GitHubApi = require("@octokit/rest");
+
+let github = new GitHubApi({ version: '3.0.0' });
 
 
 
-var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
+let fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
   // TODO
+  return new Promise(function(resolve, reject) {
+    github.search.users({ q: readFilePath }, function(err, res) {
+      if (err) {
+        reject(err); 
+      } else {
+        let githubResURL = res.items[0].avatar_url;
+        resolve(githubResURL);
+      }
+    });
+  });
 };
+
+fetchProfileAndWriteToFile('JCDiaz1201')
+.then(function(githubResURL){
+  console.log(githubResURL);
+})
+.catch(function(error) {
+  console.log('Error encountered: ', error);
+});
 
 // Export these functions so we can test them
 module.exports = {
