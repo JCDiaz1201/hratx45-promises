@@ -11,11 +11,12 @@ let Promise = require('bluebird');
 var pluckFirstLineFromFile = function (filePath, callback) {
   // TODO
   fs.readFile(filePath, 'utf8', function(err, content){
-    console.log(content); 
+    // console.log(typeof content);
     if (err) {
       callback(err, null);
     } else {
-      callback(err, content);
+      let result = content.split('\n')
+      callback(null, result[0]);
     }
   });
 };

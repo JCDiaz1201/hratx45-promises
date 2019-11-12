@@ -34,53 +34,53 @@ describe('Callback review', function() {
 
   });
 
-  describe('getStatusCode', function() {
-    var getStatusCode = callbackReview.getStatusCode;
+  // describe('getStatusCode', function() {
+  //   var getStatusCode = callbackReview.getStatusCode;
 
-    // Nock is a super cool library that makes it easy to test
-    // functions that send HTTP requests. Nock intercepts all outgoing
-    // requests and allows us to send back any response we want instead.
-    // Since no actual requests is ever sent, our tests run faster
-    // and we preserve our API rate limits.
-    var google = nock('https://google.com');
-    var someNonExistantWebsite = nock('https::///thisIsNoUrl.comedy');
+  //   // Nock is a super cool library that makes it easy to test
+  //   // functions that send HTTP requests. Nock intercepts all outgoing
+  //   // requests and allows us to send back any response we want instead.
+  //   // Since no actual requests is ever sent, our tests run faster
+  //   // and we preserve our API rate limits.
+  //   var google = nock('https://google.com');
+  //   var someNonExistantWebsite = nock('https::///thisIsNoUrl.comedy');
 
-    it('should accept a callback as its last argument', function(done) {
-      google.get('/').reply(200);
+  //   it('should accept a callback as its last argument', function(done) {
+  //     google.get('/').reply(200);
 
-      getStatusCode('https://google.com', function() {
-        // If this asserion gets called, the callback was invoked correctly
-        // Otherwise, this test will timeout after 2000ms
-        expect(true).to.equal(true);
-        done();
-      });
-    });
+  //     getStatusCode('https://google.com', function() {
+  //       // If this asserion gets called, the callback was invoked correctly
+  //       // Otherwise, this test will timeout after 2000ms
+  //       expect(true).to.equal(true);
+  //       done();
+  //     });
+  //   });
 
-    it('should invoke the callback with an error as the first argument', function(done) {
-      someNonExistantWebsite.get('/').reply(404);
+  //   it('should invoke the callback with an error as the first argument', function(done) {
+  //     someNonExistantWebsite.get('/').reply(404);
 
-      getStatusCode('https::///thisIsNoUrl.comedy', function(err, statusCode) {
-        expect(err.message).to.contain('Invalid URI');
-        expect(statusCode).to.not.exist;
-        done();
-      });
-    });
+  //     getStatusCode('https::///thisIsNoUrl.comedy', function(err, statusCode) {
+  //       expect(err.message).to.contain('Invalid URI');
+  //       expect(statusCode).to.not.exist;
+  //       done();
+  //     });
+  //   });
 
-    it('should invoke the callback with the status code as the second argument', function(done) {
-      google.get('/').reply(200);
+  //   it('should invoke the callback with the status code as the second argument', function(done) {
+  //     google.get('/').reply(200);
 
-      getStatusCode('https://google.com', function(err, statusCode) {
-        expect(statusCode).to.equal(200);
-        expect(err).to.not.exist;
-        done();
-      });
-    });
+  //     getStatusCode('https://google.com', function(err, statusCode) {
+  //       expect(statusCode).to.equal(200);
+  //       expect(err).to.not.exist;
+  //       done();
+  //     });
+  //   });
 
-    // Restore HTTP requests to their normal unmocked behavior
-    after(function() {
-      nock.cleanAll();
-    });
+  //   // Restore HTTP requests to their normal unmocked behavior
+  //   after(function() {
+  //     nock.cleanAll();
+  //   });
 
-  });
+  // });
 
 });
